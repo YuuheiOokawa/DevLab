@@ -38,7 +38,7 @@ export function ClaudeCodeSeries() {
             title="MASTER CLAUDE CODE"
             description="AIに質問する時代から、AIと一緒に開発する時代へ。"
           />
-          <Button href={`${site.noteUrl}`} external variant="secondary" size="sm" className="hidden md:inline-flex">
+          <Button href="/series#claude-code-series" variant="secondary" size="sm" className="hidden md:inline-flex">
             シリーズを見る
           </Button>
         </div>
@@ -110,7 +110,7 @@ export function ClaudeCodeSeries() {
 
       <Container>
         <div className="mt-6 md:hidden">
-          <Button href={site.noteUrl} external variant="secondary" size="sm">
+          <Button href="/series#claude-code-series" variant="secondary" size="sm">
             シリーズを見る
           </Button>
         </div>

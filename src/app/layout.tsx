@@ -65,6 +65,28 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `https://${site.domain}#organization`,
+      name: site.name,
+      url: `https://${site.domain}`,
+      sameAs: [site.social.note, site.social.x, site.social.github],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `https://${site.domain}#website`,
+      name: site.name,
+      url: `https://${site.domain}`,
+      description: site.description,
+      inLanguage: "ja",
+      publisher: { "@id": `https://${site.domain}#organization` },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -77,6 +99,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-bg text-ink antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <a href="#main" className="skip-link">
           メインコンテンツへスキップ
         </a>

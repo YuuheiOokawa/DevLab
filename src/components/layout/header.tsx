@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -8,9 +9,16 @@ import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
+function isActive(pathname: string, href: string) {
+  const [path] = href.split("#");
+  if (path === "/") return pathname === "/";
+  return pathname === path;
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -52,15 +60,25 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="メインナビゲーション">
-          {site.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-ink-soft transition-colors duration-200 hover:text-ink"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {site.nav.map((item) => {
+            const active = isActive(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "relative text-sm font-medium transition-colors duration-200",
+                  active ? "text-ink" : "text-ink-soft hover:text-ink"
+                )}
+              >
+                {item.label}
+                {active && (
+                  <span className="absolute -bottom-1.5 left-0 h-px w-full bg-gradient-to-r from-accent-blue via-accent-violet to-accent-cyan" />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:block">
@@ -90,22 +108,30 @@ export function Header() {
             className="glass fixed inset-x-4 top-[calc(env(safe-area-inset-top)+72px)] z-50 rounded-3xl border border-line p-6 lg:hidden"
           >
             <nav className="flex flex-col gap-1" aria-label="モバイルナビゲーション">
-              {site.nav.map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.04 * i, duration: 0.3 }}
-                >
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-xl px-3 py-3 text-base font-medium text-ink transition-colors hover:bg-white/5"
+              {site.nav.map((item, i) => {
+                const active = isActive(pathname, item.href);
+                return (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.04 * i, duration: 0.3 }}
                   >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex items-center justify-between rounded-xl px-3 py-3 text-base font-medium transition-colors hover:bg-white/5",
+                        active ? "text-ink" : "text-ink-soft"
+                      )}
+                    >
+                      {item.label}
+                      {active && <span className="size-1.5 rounded-full bg-accent-cyan" />}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </nav>
             <div className="mt-4 border-t border-line pt-4">
               <Button href={site.noteUrl} external className="w-full" variant="primary">

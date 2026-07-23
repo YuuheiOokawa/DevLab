@@ -17,7 +17,10 @@ export function SeriesCard({
 
   return (
     <Reveal>
-      <article className="grid grid-cols-1 gap-10 rounded-3xl border border-line bg-bg-alt p-8 md:p-12 lg:grid-cols-12 lg:gap-14">
+      <article
+        id={series.slug}
+        className="grid scroll-mt-28 grid-cols-1 gap-10 rounded-3xl border border-line bg-bg-alt p-8 md:p-12 lg:grid-cols-12 lg:gap-14"
+      >
         <div className={cn("lg:col-span-5", reverse && "lg:order-2")}>
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-accent-cyan">
             Series
