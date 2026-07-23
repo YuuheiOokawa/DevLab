@@ -1,20 +1,24 @@
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 
 export function PageHero({
   eyebrow,
   title,
   description,
+  breadcrumbLabel,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
+  breadcrumbLabel?: string;
 }) {
   return (
     <section className="relative overflow-hidden border-b border-line bg-bg pb-16 pt-36 md:pt-44">
       <div className="grid-overlay absolute inset-0 -z-10 opacity-20 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]" aria-hidden />
       <Container>
-        <Reveal>
+        <Breadcrumbs items={[{ label: breadcrumbLabel ?? title }]} />
+        <Reveal className="mt-6">
           <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.3em] text-accent-cyan uppercase">
             <span className="h-px w-6 bg-accent-cyan/70" aria-hidden />
             {eyebrow}
