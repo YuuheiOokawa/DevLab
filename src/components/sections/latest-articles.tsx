@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
@@ -41,11 +42,9 @@ export function LatestArticles() {
           {latest.map((article) => {
             const category = getCategory(article.category);
             return (
-              <a
+              <Link
                 key={article.slug}
-                href={article.noteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/articles/${article.slug}`}
                 onMouseEnter={() => setHovered(article.slug)}
                 onMouseLeave={() => setHovered(null)}
                 className="group grid grid-cols-12 items-center gap-4 border-b border-line py-6 transition-colors duration-300 hover:border-line-strong"
@@ -67,7 +66,7 @@ export function LatestArticles() {
                   <span>{dateFormatter.format(new Date(article.date))}</span>
                   <ArrowUpRight className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-ink" />
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>

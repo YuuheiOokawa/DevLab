@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { Check, Lock } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { claudeCodeCurriculum } from "@/data/curriculum";
-import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 export function ClaudeCodeSeries() {
@@ -65,21 +65,15 @@ export function ClaudeCodeSeries() {
       >
         {claudeCodeCurriculum.map((item) => {
           const isPublished = Boolean(item.articleSlug);
-          const CardTag = isPublished ? "a" : "div";
-          return (
-            <CardTag
-              key={item.step}
-              {...(isPublished
-                ? { href: site.noteUrl, target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-              className={cn(
-                "group flex min-w-[240px] shrink-0 flex-col justify-between rounded-2xl border p-6 transition-all duration-300",
-                isPublished
-                  ? "border-line bg-bg-alt hover:-translate-y-1 hover:border-line-strong"
-                  : "border-dashed border-line/70 bg-transparent opacity-60"
-              )}
-              style={{ aspectRatio: "4/5" }}
-            >
+          const cardClassName = cn(
+            "group flex min-w-[240px] shrink-0 flex-col justify-between rounded-2xl border p-6 transition-all duration-300",
+            isPublished
+              ? "border-line bg-bg-alt hover:-translate-y-1 hover:border-line-strong"
+              : "border-dashed border-line/70 bg-transparent opacity-60"
+          );
+
+          const content = (
+            <>
               <div className="flex items-center justify-between">
                 <span className="font-display text-2xl font-semibold text-ink-soft">
                   {String(item.step).padStart(2, "0")}
@@ -103,7 +97,26 @@ export function ClaudeCodeSeries() {
                   {isPublished ? "Read Article" : "Coming Soon"}
                 </p>
               </div>
-            </CardTag>
+            </>
+          );
+
+          if (isPublished) {
+            return (
+              <Link
+                key={item.step}
+                href={`/articles/${item.articleSlug}`}
+                className={cardClassName}
+                style={{ aspectRatio: "4/5" }}
+              >
+                {content}
+              </Link>
+            );
+          }
+
+          return (
+            <div key={item.step} className={cardClassName} style={{ aspectRatio: "4/5" }}>
+              {content}
+            </div>
           );
         })}
       </div>

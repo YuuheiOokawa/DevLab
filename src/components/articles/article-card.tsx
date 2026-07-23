@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { CategoryArt } from "@/components/ui/category-art";
 import { getCategory } from "@/data/categories";
@@ -22,10 +23,8 @@ export function ArticleCard({
   const category = getCategory(article.category);
 
   return (
-    <a
-      href={article.noteUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/articles/${article.slug}`}
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-bg-alt transition-all duration-500 ease-out hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_20px_60px_-20px_rgba(59,130,246,0.25)]",
         className
@@ -71,6 +70,6 @@ export function ArticleCard({
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

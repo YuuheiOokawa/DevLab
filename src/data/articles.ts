@@ -205,3 +205,14 @@ export function getLatestArticles(limit?: number): Article[] {
   );
   return limit ? sorted.slice(0, limit) : sorted;
 }
+
+export function getArticleBySlug(slug: string): Article | undefined {
+  return articles.find((a) => a.slug === slug);
+}
+
+export function getRelatedArticles(article: Article, limit = 3): Article[] {
+  return articles
+    .filter((a) => a.slug !== article.slug && a.category === article.category)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, limit);
+}

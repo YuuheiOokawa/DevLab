@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { getArticlesBySeries } from "@/data/articles";
 import { getCategory } from "@/data/categories";
@@ -55,10 +56,8 @@ export function SeriesCard({
               const category = getCategory(article.category);
               return (
                 <li key={article.slug}>
-                  <a
-                    href={article.noteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={`/articles/${article.slug}`}
                     className="group flex items-center justify-between gap-4 py-4 transition-colors duration-200"
                   >
                     <div className="flex items-center gap-4">
@@ -75,7 +74,7 @@ export function SeriesCard({
                       </div>
                     </div>
                     <ArrowUpRight className="size-4 shrink-0 text-ink-soft transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink" />
-                  </a>
+                  </Link>
                 </li>
               );
             })}
